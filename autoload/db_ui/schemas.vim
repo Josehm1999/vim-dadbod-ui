@@ -66,7 +66,7 @@ let s:sqlserver = {
       \   'args': ['-h-1', '-W', '-s', '|', '-Q'],
       \   'foreign_key_query': trim(s:sqlserver_foreign_keys_query),
       \   'schemes_query': 'SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA',
-      \   'schemes_tables_query': 'SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES',
+      \   'schemes_tables_query': "SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES where table_name like 'v%' or table_name like 't%'",
       \   'select_foreign_key_query': 'select * from %s.%s where %s = %s',
       \   'cell_line_number': 2,
       \   'cell_line_pattern': '^-\+.-\+',
@@ -75,18 +75,18 @@ let s:sqlserver = {
       \   'default_scheme': 'dbo',
       \ }
 
-let s:sqlserver = {
-      \   'args': ['-h-1', '-W', '-s', '|', '-Q'],
-      \   'foreign_key_query': trim(s:sqlserver_foreign_keys_query),
-      \   'schemes_query': 'SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA',
-      \   'schemes_tables_query': 'SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES',
-      \   'select_foreign_key_query': 'select * from %s.%s where %s = %s',
-      \   'cell_line_number': 2,
-      \   'cell_line_pattern': '^-\+.-\+',
-      \   'parse_results': {results, min_len -> s:results_parser(results[0:-3], '|', min_len)},
-      \   'quote': 0,
-      \   'default_scheme': 'siesa',
-      \ }
+" let s:sqlserver = {
+"       \   'args': ['-h-1', '-W', '-s', '|', '-Q'],
+"       \   'foreign_key_query': trim(s:sqlserver_foreign_keys_query),
+"       \   'schemes_query': 'SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA',
+"       \   'schemes_tables_query': 'SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES',
+"       \   'select_foreign_key_query': 'select * from %s.%s where %s = %s',
+"       \   'cell_line_number': 2,
+"       \   'cell_line_pattern': '^-\+.-\+',
+"       \   'parse_results': {results, min_len -> s:results_parser(results[0:-3], '|', min_len)},
+"       \   'quote': 0,
+"       \   'default_scheme': 'siesa',
+"       \ }
 
 let s:mysql_foreign_key_query =  "
       \ SELECT referenced_table_name, referenced_column_name, referenced_table_schema
