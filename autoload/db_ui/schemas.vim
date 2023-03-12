@@ -75,26 +75,13 @@ let s:sqlserver = {
       \   'default_scheme': 'dbo',
       \ }
 
-" let s:sqlserver = {
-"       \   'args': ['-h-1', '-W', '-s', '|', '-Q'],
-"       \   'foreign_key_query': trim(s:sqlserver_foreign_keys_query),
-"       \   'schemes_query': 'SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA',
-"       \   'schemes_tables_query': 'SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES',
-"       \   'select_foreign_key_query': 'select * from %s.%s where %s = %s',
-"       \   'cell_line_number': 2,
-"       \   'cell_line_pattern': '^-\+.-\+',
-"       \   'parse_results': {results, min_len -> s:results_parser(results[0:-3], '|', min_len)},
-"       \   'quote': 0,
-"       \   'default_scheme': 'siesa',
-"       \ }
-
 let s:mysql_foreign_key_query =  "
       \ SELECT referenced_table_name, referenced_column_name, referenced_table_schema
       \ from information_schema.key_column_usage
       \ where referenced_table_name is not null and column_name = '{col_name}' LIMIT 1"
 let s:mysql = {
       \ 'foreign_key_query': s:mysql_foreign_key_query,
-      \ 'schemes_query': 'SELECT schema_name FROM information_schema.schemata',
+      \ 'schemes_query': "SELECT specific_name AS 'Name', ROUTINE_DEFINITION AS 'Definition' FROM information_schema.routines where ROUTINE_TYPE = 'PROCEDURE' order by SPECIFIC_NAME;",
       \ 'schemes_tables_query': 'SELECT table_schema, table_name FROM information_schema.tables',
       \ 'select_foreign_key_query': 'select * from %s.%s where %s = %s',
       \ 'cell_line_number': 3,
